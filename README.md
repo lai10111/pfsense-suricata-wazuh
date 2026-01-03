@@ -1,6 +1,6 @@
 pfSense + Suricata + Wazuh 整合實作（期末作業）
-一、作業說明
 
+一、作業說明
 本作業選擇題目二，實作 pfSense 與 Wazuh 的整合，透過在 pfSense 上部署 Suricata 作為入侵偵測系統（IDS），並使用 Wazuh agent 將偵測到的事件傳送至 Wazuh Server 進行集中式分析與監控。
 本實驗目標為驗證 pfSense 所產生的安全事件，是否能成功被 Wazuh 接收、解析並顯示於 Dashboard 上。
 
