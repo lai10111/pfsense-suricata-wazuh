@@ -105,7 +105,7 @@ pfSense 上的 Wazuh agent 顯示為 Active 狀態，代表系統連線正常，
 解決方案： 使用 find 指令確認真實日誌路徑，並修正 ossec.conf 中的 <localfile> 設定，指定到精確的 eve.json 位置。
 
 📸 對應截圖：
-
+![em](screenshots/08_suricata_em.png)
 
 七、進階防禦機制探討：自動化阻擋
 
