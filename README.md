@@ -28,7 +28,7 @@ sudo nmap -sS 192.168.72.2
 
 五、實作結果與畫面說明
 （一）Nmap 掃描行為
-
+![Nmap Scan](screenshots/01_nmap_scan.png)
 使用 Nmap 從 192.168.72.140 對 pfSense (192.168.72.2) 進行 SYN 掃描，成功模擬掃描攻擊行為。
 
 📸 對應截圖：
