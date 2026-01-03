@@ -41,7 +41,7 @@ sudo nmap -sS 192.168.72.2
 
 本實驗於 pfSense 的 Suricata 中建立自訂規則，用以偵測 TCP SYN Scan 行為。  
 當來源主機對內部網路進行 SYN 封包掃描時，Suricata 會觸發警示，並將事件記錄至日誌中。
-
+📸 對應截圖：
 ![Suricata Custom Rule](screenshots/06_suricata_custom_rule.png)
 
 （二）Nmap 掃描行為
