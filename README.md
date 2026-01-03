@@ -39,28 +39,28 @@ sudo nmap -sS 192.168.72.2
 Suricata 成功偵測到多筆 Nmap SYN Scan 行為，顯示來源 IP、目的 IP 及對應 Port，證明 IDS 正常運作。
 
 📸 對應截圖：
-screenshots/02_suricata_alerts.png
+![Suricata Alerts](screenshots/02_suricata_alerts.png)
 
 （三）Suricata 服務啟用狀態
 
 Suricata 已成功啟用於 pfSense 的 LAN 介面，並處於 Running 狀態，確認 IDS 為即時運作中。
 
 📸 對應截圖：
-screenshots/03_suricata_running.png
+![Suricata Running](screenshots/03_suricata_running.png)
 
 （四）Wazuh Security Events（集中分析）
 
 Wazuh Dashboard 成功接收到來自 pfSense 的 Suricata 事件，並解析出掃描行為相關資訊（如 signature、來源與目的 IP），證明 IDS 與 SIEM 整合成功。
 
 📸 對應截圖：
-screenshots/04_wazuh_security_events.png
+![Wazuh Security Events](screenshots/04_wazuh_security_events.png)
 
 （五）Wazuh Agent 狀態
 
 pfSense 上的 Wazuh agent 顯示為 Active 狀態，代表系統連線正常，事件可持續傳送至 Wazuh Server。
 
 📸 對應截圖：
-screenshots/05_wazuh_agents_active.png
+![Wazuh Agents Active](screenshots/05_wazuh_agents_active.png)
 
 
 六、結論
