@@ -37,35 +37,43 @@ sudo nmap -sS 192.168.72.2
 
 五、實作結果與畫面說明
 
-（一）Nmap 掃描行為
+（一）自訂 Suricata 規則（Custom Rule）
+
+本實驗於 pfSense 的 Suricata 中建立自訂規則，用以偵測 TCP SYN Scan 行為。  
+當來源主機對內部網路進行 SYN 封包掃描時，Suricata 會觸發警示，並將事件記錄至日誌中。
+
+![Suricata Custom Rule](screenshots/06_suricata_custom_rule.png)
+
+（二）Nmap 掃描行為
 
 使用 Nmap 從 192.168.72.140 對 pfSense (192.168.72.2) 進行 SYN 掃描，成功模擬掃描攻擊行為。
 
 📸 對應截圖：
 ![Nmap Scan](screenshots/01_nmap_scan.png)
 
-（二）Suricata 偵測結果（pfSense）
+
+（三）Suricata 偵測結果（pfSense）
 
 Suricata 成功偵測到多筆 Nmap SYN Scan 行為，顯示來源 IP、目的 IP 及對應 Port，證明 IDS 正常運作。
 
 📸 對應截圖：
 ![Suricata Alerts](screenshots/02_suricata_alerts.png)
 
-（三）Suricata 服務啟用狀態
+（四）Suricata 服務啟用狀態
 
 Suricata 已成功啟用於 pfSense 的 LAN 介面，並處於 Running 狀態，確認 IDS 為即時運作中。
 
 📸 對應截圖：
 ![Suricata Running](screenshots/03_suricata_running.png)
 
-（四）Wazuh Security Events（集中分析）
+（五）Wazuh Security Events（集中分析）
 
 Wazuh Dashboard 成功接收到來自 pfSense 的 Suricata 事件，並解析出掃描行為相關資訊（如 signature、來源與目的 IP），證明 IDS 與 SIEM 整合成功。
 
 📸 對應截圖：
 ![Wazuh Security Events](screenshots/04_wazuh_security_events.png)
 
-（五）Wazuh Agent 狀態
+（六）Wazuh Agent 狀態
 
 pfSense 上的 Wazuh agent 顯示為 Active 狀態，代表系統連線正常，事件可持續傳送至 Wazuh Server。
 
