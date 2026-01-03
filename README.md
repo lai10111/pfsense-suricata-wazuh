@@ -81,7 +81,8 @@ pfSense 上的 Wazuh agent 顯示為 Active 狀態，代表系統連線正常，
 ![Wazuh Agents Active](screenshots/05_wazuh_agents_active.png)
 
 
-六、技術困難排查與解決 (Troubleshooting)
+六、技術困難排查與解決
+
 在實作整合過程中，遭遇了數個技術瓶頸，經由查看日誌（Logs）與除錯分析後順利解決，整理如下：
 
 1. Wazuh Agent 無法連線至 Server (Protocol Mismatch)
