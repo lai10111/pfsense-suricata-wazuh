@@ -10,7 +10,7 @@ pfSense + Suricata + Wazuh 整合實作（期末作業）
 
 系統架構與 IP 配置
 
-防火牆 / IDS	pfSense + Suricata	192.168.72.2
+防火牆 / IDS	pfSense + Suricata + Wazuh-agent	192.168.72.2
 
 SIEM Server	Wazuh Server (Ubuntu)	192.168.72.130
 
