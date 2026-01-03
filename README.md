@@ -86,7 +86,7 @@ pfSense 上的 Wazuh agent 顯示為 Active 狀態，代表系統連線正常，
 
 在實作整合過程中，遭遇了數個技術瓶頸，經由查看日誌（Logs）與除錯分析後順利解決，整理如下：
 
-1. Wazuh Agent 無法連線至 Server (Protocol Mismatch)
+1. Wazuh Agent 無法連線至 Server 
 遭遇問題： 在 pfSense 安裝好 Agent 後，Dashboard 始終顯示 "Disconnected"。檢查 /var/ossec/logs/ossec.log 發現大量 Closing connection to server ([IP]:1514/udp) 的錯誤訊息。
 
 原因分析： Wazuh Agent 預設或舊版設定檔可能使用 UDP 協定進行傳輸，但 Wazuh v4 架構預設採用 TCP 協定以確保資料傳輸的可靠性，導致通訊協定不匹配而無法建立連線。
@@ -96,7 +96,7 @@ pfSense 上的 Wazuh agent 顯示為 Active 狀態，代表系統連線正常，
 📸 對應截圖：
 ![tcp](screenshots/07_tcp.png)
 
-2. Suricata 日誌無法傳送至 Wazuh (Log Path Issue)
+2. Suricata 日誌無法傳送至 Wazuh
    
 遭遇問題： Suricata 已成功偵測到 Nmap 掃描並產生 eve.json，但 Wazuh Dashboard 卻收不到任何相關事件。
 
@@ -125,7 +125,7 @@ Wazuh Manager 端 (ossec.conf)：需定義 <command>（指定要執行的腳本�
 
 pfSense Agent 端：需確認 /var/ossec/active-response/bin/ 目錄下具有對應 FreeBSD 系統的防火牆腳本，並具有執行權限。
 
-預期效益： 透過此機制，系統將從被動的「入侵偵測（IDS）」升級為自動化的「入侵防禦（IPS）」，能有效縮短從發現攻擊到阻擋攻擊的時間差（Time-to-Mitigate）。
+預期效益： 透過此機制，系統將從被動的「入侵偵測（IDS）」升級為自動化的「入侵防禦（IPS）」，能有效縮短從發現攻擊到阻擋攻擊的時間差。
 
 
 八、結論
