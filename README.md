@@ -6,7 +6,6 @@ pfSense + Suricata + Wazuh 整合實作（期末作業）
 本實驗目標為驗證 pfSense 所產生的安全事件，是否能成功被 Wazuh 接收、解析並顯示於 Dashboard 上。
 
 
-
 二、實驗環境
 
 系統架構與 IP 配置
