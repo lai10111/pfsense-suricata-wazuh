@@ -81,6 +81,50 @@ pfSense 上的 Wazuh agent 顯示為 Active 狀態，代表系統連線正常，
 ![Wazuh Agents Active](screenshots/05_wazuh_agents_active.png)
 
 
-六、結論
+六、技術困難排查與解決 (Troubleshooting)
+在實作整合過程中，遭遇了數個技術瓶頸，經由查看日誌（Logs）與除錯分析後順利解決，整理如下：
+
+1. Wazuh Agent 無法連線至 Server (Protocol Mismatch)
+遭遇問題： 在 pfSense 安裝好 Agent 後，Dashboard 始終顯示 "Disconnected"。檢查 /var/ossec/logs/ossec.log 發現大量 Closing connection to server ([IP]:1514/udp) 的錯誤訊息。
+
+原因分析： Wazuh Agent 預設或舊版設定檔可能使用 UDP 協定進行傳輸，但 Wazuh v4 架構預設採用 TCP 協定以確保資料傳輸的可靠性，導致通訊協定不匹配而無法建立連線。
+
+解決方案： 修改 pfSense 上的設定檔 /var/ossec/etc/ossec.conf，將 <server>區塊中的 <protocol> 標籤強制改為 tcp，重啟服務後即成功連線。
+
+📸 對應截圖：
+
+2. Suricata 日誌無法傳送至 Wazuh (Log Path Issue)
+   
+遭遇問題： Suricata 已成功偵測到 Nmap 掃描並產生 eve.json，但 Wazuh Dashboard 卻收不到任何相關事件。
+
+原因分析： pfSense 的 Suricata 套件會根據介面名稱動態建立日誌資料夾（例如 /var/log/suricata/suricata_em1_59381/），而非固定的 /var/log/suricata/。Wazuh Agent 設定檔中若使用預設路徑，將導致 Agent 讀取不到檔案。
+
+解決方案： 使用 find 指令確認真實日誌路徑，並修正 ossec.conf 中的 <localfile> 設定，指定到精確的 eve.json 位置。
+
+📸 對應截圖：
+
+
+七、進階防禦機制探討：自動化阻擋
+
+本實驗主要驗證了「偵測（Detection）」與「監控（Monitoring）」的有效性。若要進一步達成作業要求中的「回應與阻擋（Response/Blocking）」，可透過 Wazuh 的 Active Response 機制來實現自動化防禦。其實作邏輯與架構規劃如下：
+
+運作原理：
+
+當 Wazuh Server 接收到 Suricata 傳來的事件（如 Nmap 掃描），且該事件觸發了特定等級（Level）的警報或符合特定規則 ID（Rule ID）。
+
+Wazuh Server 會即時發送指令給 pfSense 上的 Wazuh Agent。
+
+Agent 接收指令後，執行預先寫好的腳本（Script），呼叫 pfSense 底層的防火牆指令（pfctl）將攻擊來源 IP 加入黑名單（Blacklist Table），從而阻斷連線。
+
+配置規劃：
+
+Wazuh Manager 端 (ossec.conf)：需定義 <command>（指定要執行的腳本名稱，如 firewall-drop）以及 <active-response> 區塊（設定觸發條件，例如：當警報等級 >= 7 時觸發）。
+
+pfSense Agent 端：需確認 /var/ossec/active-response/bin/ 目錄下具有對應 FreeBSD 系統的防火牆腳本，並具有執行權限。
+
+預期效益： 透過此機制，系統將從被動的「入侵偵測（IDS）」升級為自動化的「入侵防禦（IPS）」，能有效縮短從發現攻擊到阻擋攻擊的時間差（Time-to-Mitigate）。
+
+
+八、結論
 
 本實驗成功完成 pfSense IDS 與 Wazuh SIEM 的整合，並驗證掃描攻擊事件可被即時偵測、記錄與集中分析。
